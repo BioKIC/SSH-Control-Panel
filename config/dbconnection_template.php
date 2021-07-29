@@ -1,11 +1,13 @@
 <?php
 
 class MySQLiConnectionFactory{
-	 array(
-			'name' => '',
-			'host' => '',
+	static $SERVERS = array(
+		array(
+			'name' => 'central',
+			'host' => 'localhost',
 			'username' => '',
-			'password' => ''
+			'password' => '',
+			'database' => ''
 		),
 		array(
 			'name' => '',
@@ -18,6 +20,7 @@ class MySQLiConnectionFactory{
 	public static function getCon($serverName,$schema){
 		for ($i = 0, $n = count(MySQLiConnectionFactory::$SERVERS); $i < $n; $i ++) {
 			$server = MySQLiConnectionFactory::$SERVERS[$i];
+			if($schema == 'central_db') $schema = $server['database'];
 			if ($server['name'] == $serverName) {
 				$connection = new mysqli($server['host'], $server['username'], $server['password'], $schema, '3306');
 				if (mysqli_connect_errno()) {
