@@ -5,7 +5,7 @@ header("Content-Type: text/html; charset=UTF-8");
 //if(!$UID) header('Location: '.$CLIENT_ROOT.'/profile/index.php?refurl=../stats/index.php?');
 
 $format = array_key_exists('format',$_REQUEST)?$_REQUEST['format']:'';
-$formSubmit = array_key_exists('formsubmit',$_POST)?$_POST['formsubmit']:'';
+$formSubmit = array_key_exists('formsubmit',$_REQUEST)?$_REQUEST['formsubmit']:'';
 
 //Sanitation
 $formSubmit =  filter_var($formSubmit, FILTER_SANITIZE_STRING);
