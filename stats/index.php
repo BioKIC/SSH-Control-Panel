@@ -46,30 +46,8 @@ if($UID){
 					$statsManager->buildStats($_POST);
 					$reportArr = $statsManager->getPortalMeta();
 					if($reportArr){
-						?>
-						<table class="styledtable">
-							<tr><th>Name</th><th>Status</th><th># Frontends</th><th colspan="2">Collections</th><th colspan="4">Occurrences</th><th colspan="3">Images</th><th></th><th></th><th>URL</th></tr>
+						echo json_encode($reportArr, JSON_PRETTY_PRINT);
 
-Active/retired TCN
-Central URL
-Number of front-end installations
-Collections	Live Data:
-	Snapshot:
-	Total:
-
-Occurrences	Live Data:
-	Snapshot:
-	Research observations:
-	Field collections:
-	Total occurrences:
-
-Images	Live Data:
-	Snapshot collections:
-	Observation images:
-	Field Collection Images:
-	Total images:
-						</table>
-						<?php
 					}
 				}
 			}
