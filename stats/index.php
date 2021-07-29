@@ -4,6 +4,7 @@ include_once($SERVER_ROOT.'/classes/StatisticManager.php');
 header("Content-Type: text/html; charset=UTF-8");
 //if(!$UID) header('Location: '.$CLIENT_ROOT.'/profile/index.php?refurl=../stats/index.php?');
 
+$format = array_key_exists('format',$_REQUEST)?$_REQUEST['format']:'';
 $formSubmit = array_key_exists('formsubmit',$_POST)?$_POST['formsubmit']:'';
 
 //Sanitation
@@ -19,13 +20,21 @@ if($UID){
 	}
 }
 
+$reportArr = array();
 if($formSubmit == 'displayStats'){
 	$statsManager->buildStats($_POST);
 	$reportArr = $statsManager->getPortalMeta();
-	if($reportArr){
-		header("Content-Type: application/json; charset=UTF-8");
-		echo json_encode($reportArr, JSON_PRETTY_PRINT);
+	if($format == 'json'){
+		if($reportArr){
+			header("Content-Type: application/json; charset=UTF-8");
+			echo json_encode($reportArr, JSON_PRETTY_PRINT);
+		}
+		else echo 'No data returned';
 		exit;
+	}
+	elseif($format == 'csv'){
+		$statsManager->exportReportCSV();
+		//exit;
 	}
 }
 
@@ -53,10 +62,14 @@ if($formSubmit == 'displayStats'){
 		<div id="innertext">
 			<?php
 			if($isEditor){
-				if($formSubmit == 'displayStats'){
-					//$statsManager->buildStats($_POST);
-					//$reportArr = $statsManager->getPortalMeta();
-
+				if($reportArr){
+					if($format == 'html'){
+						//Display report as an HTML spreadsheet
+						echo 'HTML table output is in development';
+					}
+					else{
+						echo '<h2>In development!</h2>';
+					}
 				}
 			}
 			?>
@@ -64,7 +77,12 @@ if($formSubmit == 'displayStats'){
 				<legend>Action Panel</legend>
 				<form name="statisticForm" method="post" action="index.php">
 					<div>
-						<input name="" type="checkbox" value="" />
+						<label>Output:</label>
+						<select name="format">
+							<option value="html">Table within browser</option>
+							<option value="csv">CSV Spreadsheet</option>
+							<option value="json">JSON</option>
+						</select>
 					</div>
 					<button name="formsubmit" type="submit" value="displayStats">Display Statistics</button>
 				</form>

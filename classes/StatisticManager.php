@@ -187,6 +187,11 @@ class StatisticManager{
 		return $retArr;
 	}
 
+	//Export formats
+	public function exportReportCSV(){
+
+	}
+
 	//Setters and getter
 	public function getPortalMeta(){
 		return $this->portalMeta;
