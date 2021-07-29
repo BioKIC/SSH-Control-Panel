@@ -8,7 +8,7 @@ class StatisticManager{
 	private $portalMeta = array();
 
 	function __construct() {
-		$this->conn = MySQLiConnectionFactory::getCon('biokic1', 'ssh-controlpanel');
+		$this->conn = MySQLiConnectionFactory::getCon('central', 'central_db');
 	}
 
 	function __destruct(){
