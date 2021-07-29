@@ -4,7 +4,7 @@ include_once($SERVER_ROOT.'/classes/StatisticManager.php');
 header("Content-Type: text/html; charset=UTF-8");
 //if(!$UID) header('Location: '.$CLIENT_ROOT.'/profile/index.php?refurl=../stats/index.php?');
 
-$formSubmit = array_key_exists('formsubmit',$_REQUEST)?$_REQUEST['formsubmit']:'';
+$formSubmit = array_key_exists('formsubmit',$_POST)?$_POST['formsubmit']:'';
 
 //Sanitation
 $formSubmit =  filter_var($formSubmit, FILTER_SANITIZE_STRING);
@@ -18,6 +18,17 @@ if($UID){
 		$isEditor = 1;
 	}
 }
+
+if($formSubmit == 'displayStats'){
+	$statsManager->buildStats($_POST);
+	$reportArr = $statsManager->getPortalMeta();
+	if($reportArr){
+		header("Content-Type: application/json; charset=UTF-8");
+		echo json_encode($reportArr, JSON_PRETTY_PRINT);
+		exit;
+	}
+}
+
 ?>
 <html>
 	<head>
@@ -43,12 +54,9 @@ if($UID){
 			<?php
 			if($isEditor){
 				if($formSubmit == 'displayStats'){
-					$statsManager->buildStats($_POST);
-					$reportArr = $statsManager->getPortalMeta();
-					if($reportArr){
-						echo json_encode($reportArr, JSON_PRETTY_PRINT);
+					//$statsManager->buildStats($_POST);
+					//$reportArr = $statsManager->getPortalMeta();
 
-					}
 				}
 			}
 			?>
